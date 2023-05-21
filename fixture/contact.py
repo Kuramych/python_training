@@ -1,4 +1,6 @@
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
+
 
 class Contact_helper:
     def __init__(self, app):
@@ -94,5 +96,14 @@ class Contact_helper:
         wd = self.app.wd
         wd.find_element("link text", "home").click()
         wd.find_element("name", "selected[]").click()
+        wd.find_element("xpath", "//input[@value='Delete']").click()
+        wd.switch_to.alert.accept()
+
+    def delete_all_contacts(self):
+        wd = self.app.wd
+        wd.find_element("link text", "home").click()
+        # select all group
+        wd.find_element(By.ID, "MassCB").click()
+        # submit deletion
         wd.find_element("xpath", "//input[@value='Delete']").click()
         wd.switch_to.alert.accept()

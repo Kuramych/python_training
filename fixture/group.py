@@ -39,3 +39,5 @@ class Group_helper:
         # submit deletion
         wd.find_element("name", "delete").click()
         self.return_to_group_page()
+
+
