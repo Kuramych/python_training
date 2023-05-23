@@ -7,7 +7,7 @@ from fixture.group import Group_helper
 class Application:
     def __init__(self):
         self.wd = webdriver.Chrome(executable_path=r'')
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(5)
         self.session = Session_helper(self)
         self.contact = Contact_helper(self)
         self.group = Group_helper(self)

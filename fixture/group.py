@@ -1,3 +1,6 @@
+from selenium.webdriver.common.by import By
+
+
 class Group_helper:
     def __init__(self, app):
         self.app = app
@@ -62,3 +65,7 @@ class Group_helper:
         self.submit_modification_group()
         self.return_to_group_page()
 
+    def count(self):
+        wd = self.app.wd
+        self.open_group_page()
+        return len(wd.find_elements(By.NAME, "selected[]"))

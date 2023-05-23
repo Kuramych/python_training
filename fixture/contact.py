@@ -2,7 +2,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 
 
-
 class Contact_helper:
     def __init__(self, app):
         self.app = app
@@ -10,7 +9,12 @@ class Contact_helper:
     def enter_contact(self):
         wd = self.app.wd
         # Enter new contact
-        wd.find_element("xpath", "//div[@id='content']/form/input[21]").click()
+        wd.find_element("name", "submit").click()
+
+    def update_contact(self):
+        wd = self.app.wd
+        # Enter new contact
+        wd.find_element("name", "update").click()
 
     def create_contact(self, contact):
         self.init_contact_creation()
@@ -47,7 +51,7 @@ class Contact_helper:
         self.home_page()
         wd.find_element("xpath", "//img[@alt='Edit']").click()
         self.fill_contact_form(new_contact_data)
-        self.enter_contact()
+        self.update_contact()
 
     def fill_contact_form(self, contact):
         self.change_field_value("firstname", contact.firstname)
@@ -87,3 +91,8 @@ class Contact_helper:
         if text is not None:
             wd.find_element("name", field_name).click()
             Select(wd.find_element("name", field_name)).select_by_visible_text(text)
+
+    def count(self):
+        wd = self.app.wd
+        self.home_page()
+        return len(wd.find_elements(By.NAME, "selected[]"))
