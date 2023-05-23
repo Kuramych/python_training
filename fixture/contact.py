@@ -17,6 +17,7 @@ class Contact_helper:
         wd.find_element("name", "update").click()
 
     def create_contact(self, contact):
+        self.home_page()
         self.init_contact_creation()
         self.fill_contact_form(contact)
         self.enter_contact()
@@ -44,6 +45,8 @@ class Contact_helper:
 
     def home_page(self):
         wd = self.app.wd
+        if len(wd.find_elements(By.NAME, "searchstring")) > 0:
+            return
         wd.find_element("link text", "home").click()
 
     def modify_first_contact(self, new_contact_data):
