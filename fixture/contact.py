@@ -108,5 +108,6 @@ class Contact_helper:
         for element in (wd.find_elements(By.CSS_SELECTOR, "tr")[1:]):
             text = element.text
             id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-            contacts.append(Contact(name=text, id=id))
+            lastname, firstname = text.split(' ')[0:2]
+            contacts.append(Contact(lastname=lastname, firstname=firstname, id=id))
         return contacts
