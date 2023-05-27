@@ -30,9 +30,12 @@ class Contact_helper:
         wd.find_element("link text", "add new").click()
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.home_page()
-        wd.find_element("name", "selected[]").click()
+        wd.find_elements("name", "selected[]")[index].click()
         wd.find_element("xpath", "//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
         self.contact_cache = None
@@ -54,9 +57,20 @@ class Contact_helper:
         wd.find_element("link text", "home").click()
 
     def modify_first_contact(self, new_contact_data):
+        self.modify_contact_by_index(0, new_contact_data)
+
+    def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.home_page()
-        wd.find_element("xpath", "//img[@alt='Edit']").click()
+        wd.find_elements("xpath", "//img[@alt='Edit']")[index].click()
+        self.fill_contact_form(new_contact_data)
+        self.update_contact()
+        self.contact_cache = None
+
+    def modify_random_contact(self, index, new_contact_data):
+        wd = self.app.wd
+        self.home_page()
+        wd.find_elements("xpath", "//img[@alt='Edit']")[index].click()
         self.fill_contact_form(new_contact_data)
         self.update_contact()
         self.contact_cache = None
