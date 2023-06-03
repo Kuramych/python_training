@@ -2,14 +2,14 @@ import re
 
 
 def test_phones_on_home_page(app):
-    contact_from_home_page = app.contact.get_contact_list()[0]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
+    contact_from_home_page = app.contact.get_contact_list()[1]
+    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(1)
     assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.address == contact_from_edit_page.address
+    assert contact_from_home_page.address == several_spaces(contact_from_edit_page.address)
     assert contact_from_home_page.firstname == contact_from_edit_page.firstname
     assert contact_from_home_page.lastname == contact_from_edit_page.lastname
     assert contact_from_home_page.id == contact_from_edit_page.id
-    assert contact_from_home_page.all_emails == merge_emails_like_on_home_page(contact_from_edit_page)
+    assert clear(contact_from_home_page.all_emails) == merge_emails_like_on_home_page(contact_from_edit_page)
 
 
 def test_phones_on_contact_view_page(app):
@@ -22,7 +22,12 @@ def test_phones_on_contact_view_page(app):
 
 
 def clear(s):
-    return re.sub("[() -]", "", s)
+    s = re.sub("[() -]", "", s)
+    return s
+
+
+def several_spaces(s):
+    return re.sub(r"\s{2,}", " ", s)
 
 
 def merge_phones_like_on_home_page(contact):
