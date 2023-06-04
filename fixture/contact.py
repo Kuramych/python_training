@@ -181,3 +181,29 @@ class Contact_helper:
         phone2 = re.search("P: (.*)", text).group(1)
         return Contact(home=home, mobile=mobile, work=work, phone2=phone2)
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.home_page()
+        self.select_contact_by_id(id)
+        wd.find_element("xpath", "//input[@value='Delete']").click()
+        wd.switch_to.alert.accept()
+        self.contact_cache = None
+
+    def modify_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.open_contact_to_edit_by_id(int(id))
+        self.fill_contact_form(new_contact_data)
+        self.update_contact()
+        self.contact_cache = None
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        self.home_page()
+        element = wd.find_elements(By.NAME, "entry")[id]
+        cell = element.find_elements(By.TAG_NAME, "td")[7]
+        cell.find_element(By.TAG_NAME, "a").click()
+
