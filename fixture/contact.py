@@ -187,8 +187,8 @@ class Contact_helper:
 
     def delete_contact_by_id(self, id):
         wd = self.app.wd
-        self.home_page()
-        self.select_contact_by_id(id)
+        #self.home_page()
+        wd.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
         wd.find_element("xpath", "//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
         self.contact_cache = None

@@ -1,4 +1,5 @@
 import re
+from model.contact import Contact
 
 
 def test_phones_on_home_page(app):
@@ -10,6 +11,17 @@ def test_phones_on_home_page(app):
     assert contact_from_home_page.lastname == contact_from_edit_page.lastname
     assert contact_from_home_page.id == contact_from_edit_page.id
     assert clear(contact_from_home_page.all_emails) == merge_emails_like_on_home_page(contact_from_edit_page)
+
+
+def test_compare_inf_from_home_and_database(app, db):
+    contacts_from_database = sorted(db.get_contact_list(), key=Contact.id_or_max)
+    contacts_from_home_page = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
+    for contact_from_home_page, contact_from_database in zip(contacts_from_home_page, contacts_from_database):
+        assert clear(contact_from_home_page.firstname) == clear(contact_from_database.firstname)
+        assert clear(contact_from_home_page.lastname) == clear(contact_from_database.lastname)
+        assert clear(contact_from_home_page.address) == clear(contact_from_database.address)
+        assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_database)
+        assert clear(contact_from_home_page.all_emails) == merge_emails_like_on_home_page(contact_from_database)
 
 
 def test_phones_on_contact_view_page(app):
